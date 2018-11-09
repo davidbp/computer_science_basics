@@ -13,7 +13,7 @@ This is specially useful for managing "complex dependencies" such as libraries t
 
 - `docker pull python:3.5` Download a basic image that contains python 3.5
 
-- `docker build -t 4_test .` 
+- `docker build -t 4_test2 .` 
 	- This builds the image. This is similar as compiling a class.
 
 - `docker run --name 4_train_model_save_results 4_test`
@@ -21,6 +21,12 @@ This is specially useful for managing "complex dependencies" such as libraries t
 
 - `docker start -ia 4_run_and_save` to start the container.
 	- This executes the commands inside the object `4_run_and_save`. 
+
+#### Saving the results
+
+- `docker run -v "$PWD":/app 4_test` should be run in order to see `results.csv` in the same folder where we run the docker.
+
+- `docker run -it -v "$PWD":/app/ 4_test3 /bin/bash`
 
 
 #### Additional notes
