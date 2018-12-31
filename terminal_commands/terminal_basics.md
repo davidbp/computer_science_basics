@@ -49,3 +49,42 @@ Several of touch's options are specifically designed to allow the user to change
 ```
 touch -am file3
 ```
+
+
+
+
+
+
+### `GREP`: Get Regular Expression and Print
+
+
+
+#### Looking for key words in a document
+
+We can use the `grep` command to find the lines in a file that contain a particular word.
+
+For example `grep Charles people_data.txt` will print the lines where the string `Charles` appears in the document `people_data.txt`:
+
+```
+grep Charles people_data.txt 
+```
+
+```
+Charles Harris
+Charles Patterson
+Charles Martin
+Charles Jones
+Charles Davis
+Charles Miller
+```
+
+If we want we can look for `Charles J` inside the document. To do so we need to write the string between `  " "` because there is an space inside the string.
+
+```
+grep "Charles J" people_data.txt 
+```
+
+```
+Charles Jones
+```
+
