@@ -13,7 +13,7 @@ sudo singularity build name_of_image.simg mydescriptor.singularity
 for example, if we want to build `bscdc_spark.singularity`:
 
 ```
-sudo singularity build spark_bscdc_david.simg bscdc_spark.singularity
+sudo singularity build $HOME/singularity_images/spark_bscdc_david.simg bscdc_spark.singularity
 ```
 
 
