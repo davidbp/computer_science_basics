@@ -1,7 +1,5 @@
 # How to use a Singularity file
 
-
-
 ### Create a container (similar to  creating an abstract class)
 
 In order to build the singularity container described  in a `mydescriptor.singularity` file  we must do:
@@ -84,24 +82,122 @@ Stopping spark_instance instance of /home/david/Documents/bsc/nord3-spark/spark_
 
 # Execute Spark  in Singularity
 
-### Executing  a Pyspark file inside a singularity node (single node) 
+
+
+## Pyspark single node standalone
 
 ```
-myfolder>singularity instance.start $HOME/singularity_images/spark_bscdc_david.simg spark_instance
+myfolder> singularity instance.start $HOME/singularity_images/spark_bscdc_david.simg spark_instance
 
 myfolder>singularity shell instance://spark_instance 
 
+# fails due to java heap space
 Singularity myfolder>spark-submit 02_ml_LogisticRegression.py
+
+Singularity myfolder>spark-submit --conf spark.executor.memory=120g --conf spark.driver.memory=4g 02_ml_LogisticRegression.py
+
+Singularity myfolder>spark-submit --conf spark.executor.memory=120g --conf spark.driver.memory=4g 02_ml_LogisticRegression.py
 ```
 
 
 
-## start a spark master
+
+
+## Pyspark cluster mode 
+
+Now we will see how to manually start a spark master, how to start spark slave/s and how to submit a python script to the spark slave.
+
+The core idea follows the following schema:
+
+#### (1) Create spark master.
+
+- The user has to specify  a port and the memory for the spark master.
+
+Example
+
+```
+/opt/spark/sbin/start-master.sh -p 8765 
+```
+
+#### (2) Create a spark slave with the URL of the spark master. 
+
+-  The user has to specify the memory for the spark slave and a folder to write temporary 
+
+Example
+
+```
+/opt/spark/sbin/start-slave.sh spark://10.0.26.3:8765 -d /tmp/spark_tmp/ -m 100G  -c 40
+/opt/spark/sbin/start-slave.sh spark://10.0.26.3:8765 -d /tmp/spark_tmp/ -m 100G  -c 40
+```
+
+Another way to start a slave:
+
+```
+/opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://10.0.26.3:8765  -d /tmp/spark_tmp/ -m 100G  -c 40
+```
+
+#### (3) Create more slaves (go to (2)) or simply execute your application (go to (4))
+
+```
+/opt/spark/sbin/start-slave.sh spark://10.0.26.2:8765 -d /tmp/spark_tmp/ -m 100G  
+```
+
+#### (4) Execute your application with `spark-submit`  
+
+- The user has to specify a configuration for the job 
+
+General case
+
+```
+spark-submit --master spark://host:port  my_python_program.py
+```
+
+
+
+### Interesting example
+
+Example 1
+
+```
+spark-submit --master spark://10.0.26.3:8765 --conf spark.executor.memory=100g --conf spark.driver.memory=4g --conf spark.executor.cores=40 02_ml_LogisticRegression.py
+
+	- Total time tanken 164.68428468704224 sec. 
+```
+
+Example 2
+
+```
+spark-submit --conf spark.executor.memory=100g --conf spark.driver.memory=4g 02_ml_LogisticRegression.py
+
+	- Total time tanken 90.23491238912837 sec. 
+```
+
+- If we use nmon we can see (clicking n to monitor network usage) that:
+  - Example 1 is moving the data through net connection (and there is a lot of overhead)
+  - Example 2 is moving the data without using the network.
+
+
+
+#### Example with 2 slaves
+
+```
+spark-submit --master spark://10.0.26.3:8765 --conf spark.executor.memory=100g --conf spark.driver.memory=4g --conf spark.executor.cores=40 --conf spark.default.parallelism=80 /home/dbuchaca/git_stuff/spark_ibm_bsc/dataset_executions/02_ml_LogisticRegression.py
+```
+
+
+
+
+
+
+
+
+
+### How to start a spark master
 
 We can start a master spark session with
 
 ```
-/opt/spark/sbin/start-master.sh -p 8765   
+/opt/spark/sbin/start-master.sh -p 8765  -m  64G
 ```
 
 We can see that spark is running with `ps aux`: The third line showing a java process is the spark master
@@ -119,19 +215,46 @@ dbuchaca   577  0.0  0.0  36060  2876 pts/2    R+   16:39   0:00 ps aux
 we can close it with
 
 ```
-/opt/spark/sbin/stop-master.sh   
+/opt/spark/sbin/stop-master.sh 
 ```
 
 
 
-### Executing  a Pyspark file inside a singularity node (multiple node) 
 
 
+### How to start a spark slave
 
-```
-(Pdb) out
-b'Traceback (most recent call last):\n  File "/home/dbuchaca/git_stuff/spark_ibm_bsc/dataset_executions/02_ml_LogisticRegression.py", line 38, in <module>\n    model = LogisticRegressionWithSGD.train(rdd_data, n_iterations)\n  File "/opt/spark/python/lib/pyspark.zip/pyspark/mllib/classification.py", line 325, in train\n  File "/opt/spark/python/lib/pyspark.zip/pyspark/mllib/regression.py", line 217, in _regression_train_wrapper\n  File "/opt/spark/python/lib/pyspark.zip/pyspark/mllib/classification.py", line 323, in train\n  File "/opt/spark/python/lib/pyspark.zip/pyspark/mllib/common.py", line 130, in callMLlibFunc\n  File "/opt/spark/python/lib/pyspark.zip/pyspark/mllib/common.py", line 123, in callJavaFunc\n  File "/opt/spark/python/lib/py4j-0.10.7-src.zip/py4j/java_gateway.py", line 1257, in __call__\n  File "/opt/spark/python/lib/py4j-0.10.7-src.zip/py4j/protocol.py", line 328, in get_return_value\npy4j.protocol.Py4JJavaError: An error occurred while calling o46.trainLogisticRegressionModelWithSGD.\n: org.apache.spark.SparkException: Job aborted due to stage failure: Task 20 in stage 3.0 failed 1 times, most recent failure: Lost task 20.0 in stage 3.0 (TID 23, localhost, executor driver): ExecutorLostFailure (executor driver exited caused by one of the running tasks) Reason: Executor heartbeat timed out after 122509 ms\nDriver stacktrace:\n\tat org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$failJobAndIndependentStages(DAGScheduler.scala:1889)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1877)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1876)\n\tat scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)\n\tat scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:48)\n\tat org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:1876)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:926)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:926)\n\tat scala.Option.foreach(Option.scala:257)\n\tat org.apache.spark.scheduler.DAGScheduler.handleTaskSetFailed(DAGScheduler.scala:926)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:2110)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:2059)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:2048)\n\tat org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:49)\n\tat org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:737)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:2061)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:2082)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:2101)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:2126)\n\tat org.apache.spark.rdd.RDD.count(RDD.scala:1168)\n\tat org.apache.spark.mllib.util.DataValidators$$anonfun$1.apply(DataValidators.scala:40)\n\tat org.apache.spark.mllib.util.DataValidators$$anonfun$1.apply(DataValidators.scala:39)\n\tat org.apache.spark.mllib.regression.GeneralizedLinearAlgorithm$$anonfun$run$3.apply(GeneralizedLinearAlgorithm.scala:255)\n\tat org.apache.spark.mllib.regression.GeneralizedLinearAlgorithm$$anonfun$run$3.apply(GeneralizedLinearAlgorithm.scala:255)\n\tat scala.collection.LinearSeqOptimized$class.forall(LinearSeqOptimized.scala:83)\n\tat scala.collection.immutable.List.forall(List.scala:84)\n\tat org.apache.spark.mllib.regression.GeneralizedLinearAlgorithm.run(GeneralizedLinearAlgorithm.scala:255)\n\tat org.apache.spark.mllib.api.python.PythonMLLibAPI.trainRegressionModel(PythonMLLibAPI.scala:92)\n\tat org.apache.spark.mllib.api.python.PythonMLLibAPI.trainLogisticRegressionModelWithSGD(PythonMLLibAPI.scala:278)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:498)\n\tat py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)\n\tat py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:357)\n\tat py4j.Gateway.invoke(Gateway.java:282)\n\tat py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)\n\tat py4j.commands.CallCommand.execute(CallCommand.java:79)\n\tat py4j.GatewayConnection.run(GatewayConnection.java:238)\n\tat java.lang.Thread.run(Thread.java:748)\n\n'
-(Pdb) q
+Start a spark slave
 
 ```
+/opt/spark/sbin/start-slave.sh spark://10.0.26.3:8765 -d /tmp/spark_tmp/ -m 64G  
+```
+
+Kill spark slave
+
+```
+/opt/spark/sbin/stop-slave.sh 
+```
+
+
+
+
+
+### How to connect a pyspark script with a spark master and its slaves
+
+```
+spark-submit --master spark://host:port --conf spark.executor.memory=32g my_python_program.py
+```
+
+```
+spark-submit --master spark://10.0.26.3:8765  --conf spark.executor.memory=32g 02_ml_LogisticRegression.py 
+```
+
+
+
+
+
+## Pyspark  (multiple node) 
+
+
 
