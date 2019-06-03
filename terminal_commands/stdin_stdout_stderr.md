@@ -98,3 +98,32 @@ ls somehting_unexpected 1> f1.txt 2>f2.txt
 ```
 
 Then we get nothing inide `f1.txt` and `ls: somehting_unexpected: No such file or directory ` inside `f2.txt`. This make sense because the stdout (saved to `f1.txt`) did not printed anything because the program crashed whereas stdout (saved to `f2.txt`) saved the error of the program. 
+
+
+
+# Python stdin, stdout, stderr 
+
+## `subproces.call`
+
+Example in which a shell command works
+
+````
+$b = subprocess.call(["ls",  "-l"])
+
+$b
+0
+````
+
+Example in which a shell command does not work
+
+```
+$b = subprocess.call(["ls", "whatever", "-l"])
+ls: -l: No such file or directory
+ls: whatever: No such file or directory
+
+$b
+1
+```
+
+
+
