@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="In Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Out Files">
+      <UniqueIdentifier>{10c9662a-f80f-41e2-bc41-bb057ffe2304}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="graph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="graphTS.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wgraph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GPrc23.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wgraphMP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wgraphMT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="graph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="wgraph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="graph0.in">
+      <Filter>In Files</Filter>
+    </None>
+    <None Include="graph1.in">
+      <Filter>In Files</Filter>
+    </None>
+    <None Include="graph2.in">
+      <Filter>In Files</Filter>
+    </None>
+    <None Include="graph3.in">
+      <Filter>In Files</Filter>
+    </None>
+    <None Include="wgraph1.in">
+      <Filter>In Files</Filter>
+    </None>
+    <None Include="wgraph2.in">
+      <Filter>In Files</Filter>
+    </None>
+    <None Include="wgraph3.in">
+      <Filter>In Files</Filter>
+    </None>
+    <None Include="graph0.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="K42.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="K6.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="wgraph0.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="Bp6_6.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="C6.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="cities1.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="cities2.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="graph1.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="graph2.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="graph3.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="K4_2.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="Kg6_6.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="Kt6_6.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="Rk6_6.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="S6.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="S8.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="W6.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="W8.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="WC6.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="WD.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="wgraph1.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="wgraph2.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="wgraph3.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="WK4_2.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="WK6.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="WS6.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="WW6.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="WI.out">
+      <Filter>Out Files</Filter>
+    </None>
+    <None Include="Cities1.in">
+      <Filter>In Files</Filter>
+    </None>
+    <None Include="Cities2.in">
+      <Filter>In Files</Filter>
+    </None>
+    <None Include="WD.in">
+      <Filter>In Files</Filter>
+    </None>
+    <None Include="WI.in">
+      <Filter>In Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>
