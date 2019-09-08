@@ -1,9 +1,25 @@
+#### Check if you are connected `ping`
+
+
+If you do `ping someurl` and get an output it means you are connected to the internet
+
+```
+ping google.com
+PING google.com (216.58.201.142): 56 data bytes
+64 bytes from 216.58.201.142: icmp_seq=0 ttl=56 time=14.518 ms
+64 bytes from 216.58.201.142: icmp_seq=1 ttl=56 time=14.411 ms
+```
 
 #### IP adress a machine `ipconfig` (ethernet)
+To get the ip adress of a machine conected via ethernet using `en0` you can do:
+
 ```
 ipconfig getifaddr en0
 ```
 
+This should return a number. For example:
+`192.168.1.131`
+ 
 #### IP adress of a machine `ipconfig` (wifi)
 ```
 ipconfig getifaddr en1
@@ -14,6 +30,20 @@ ipconfig getifaddr en1
 ```
 192.168.1.133
 ```
+
+#### Turn on/off internet conection
+
+Assuming you are connected to `en0` you can close your internet conection with:
+
+```
+sudo ifconfig en0 down
+```
+You can gain access to the internet again with:
+
+```
+sudo ifconfig en0 up
+```
+
 
 #### IP adress of a machine with `ifconfig`
 ```
