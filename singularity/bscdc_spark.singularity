@@ -42,13 +42,13 @@ From: nickjer/singularity-rstudio
     # Software versions
     export SPARK_VERSION=2.4.1
     export HADOOP_VERSION=2.7
-    
+
     # User name of the home folder
-    export HOME_FOLDER=/home/dbuchaca
+    export HOME_FOLDER=~
 
     # Install nano
     apt-get update
-    apt-get -y install nano
+    apt-get -y install nano swig vim
 
     # Install Conda
     if [ ! -d /usr/local/anaconda ]; then
@@ -58,11 +58,16 @@ From: nickjer/singularity-rstudio
     fi
     # set anaconda path
     export PATH="/usr/local/anaconda/bin:$PATH"
-  
+
     # install the bare minimum
+    # gxx_linux-64 gcc_linux-64 swig are requirements for SMAC
     conda install\
-      numpy scipy pandas scikit-learn nltk ipython py-cpuinfo pyspark
+      numpy scipy pandas scikit-learn nltk ipython py-cpuinfo pyspark\
+      scikit-optimize \
+      gxx_linux-64 gcc_linux-64 swig \
+      -c conda-forge
     conda clean --tarballs
+    pip install smac
   
     # Install Spark
     apt-get update
