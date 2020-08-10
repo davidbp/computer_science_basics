@@ -13,7 +13,9 @@ This file summarizes a set of basics terminal commands:
 - `grep`: get regular expression and print 
   - Print lines of files that contain a particular match of a regular expression
 
+- `cut`: Command to remove (or cut out) sections of each line of a file (or files)
 
+  
 
 
 
@@ -335,6 +337,49 @@ grep "^8" people_data_2.txt
 
 
 
+
+
+#### `"regex"`: Using Extender regular expressions
+
+Let us imagine we want to retrieve rows of a file that match a union of two regular expression.
+
+We have a regular expression "4$" that matches lines that end with a 4
+
+```
+grep "4$" people_data_2.txt 
+```
+
+```
+615-555-7164
+173 Main St., Springfield RI 55924
+```
+
+We have a regular expression "5$" that matches lines that end with a 5
+
+```
+grep "5$" people_data_2.txt 
+```
+
+```
+969 High St., Atlantis VA 34075
+```
+
+Then we can do ` grep -E "r1|r2"` to match either r1 or r2.
+
+```
+grep -E "4$|5$"  people_data_2.txt 
+```
+
+```
+615-555-7164
+173 Main St., Springfield RI 55924
+969 High St., Atlantis VA 34075
+```
+
+Note that we get as ouptut the union of both of the previous regular expressions.
+
+
+
 #### `|` Piping results
 
 This is not a particular option from `grep` but a general operation. Nevertheless it is so important that we write it here.
@@ -342,8 +387,6 @@ This is not a particular option from `grep` but a general operation. Nevertheles
 We can use `|` to piple the output of a `grep`into another `grep`.
 
 For example we can first look for all lines that start with `80` in a file and then filter the ones that contain the substring `AK` inside. This is done with  `grep "^80" people_data_2.txt | grep AK`.
-
-
 
 ```
 grep "^80" people_data_2.txt | grep AK
@@ -356,3 +399,44 @@ grep "^80" people_data_2.txt | grep AK
 
 
 #### `| xargs` Piping content of results
+
+
+
+
+
+###  `cut`: Cut out files
+
+#### `-f`: Retrieve  fields on each line
+
+The option `-f` can be used to retrieve a given column of a file.
+
+For example, `iris.csv` has the following format:
+
+```
+head iris.csv 
+SepalLength,SepalWidth,PetalLength,PetalWidth,Name
+5.1,3.5,1.4,0.2,Iris-setosa
+4.9,3.0,1.4,0.2,Iris-setosa
+4.7,3.2,1.3,0.2,Iris-setosa
+```
+
+Here we can see that each column is separated by a comma. We can tell `cut` to partition each line with a comma delimiter  stating "-d ,":
+
+```
+cut -d , -f1 iris.csv
+```
+
+If we want to get the first and the fifth columns we can do
+
+```
+cut -d , -f1 -f5 iris.csv
+```
+
+Note that we can filter the results using the pipe operator.
+
+We could pass the output of the previous command to select only rows that endwith either "virginica" or "setosa"
+
+```
+cut -d , -f1 -f5 iris.csv | grep -E "virginica$|setosa$"
+```
+
