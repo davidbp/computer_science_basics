@@ -1,5 +1,4 @@
-
-#### Why Docker
+### Why Docker
 
 The main benefits of docker are
 
@@ -7,15 +6,61 @@ The main benefits of docker are
 
 - You can build multiple projects you can keep them separate (in different docker containers). 
   This can eliminate possible incompatibilities between projects
+  
+  
 
 ### Basic Docker commands summary
 
-- `docker run <image>`     : Get a Docker Image creates a container and starts the container.
-- `docker start <name|id>` : Start docker `<name|id>`
-- `docker stop <name|id>`  : Stop docker  `<name|id>`
-- `docker ps`              : Currently running dockers
-- `docker ps -a`           : Currently running dockers AND currently stopped dockers
-- `docker rm <name|id>`    : Remove container `<name|id>`
+- **`docker build -t <name_image> <path_folder_containing_Dockerfile>`**
+
+  - build an image from a  `Dockerfile` found in `path_folder_containing_Dockerfile`
+  - After an image is build it should appear in `docker images`
+
+- **`docker images`**: displays the images available in the local machine
+
+  - After building an image it should appear in `docker images`
+  - Example: `docker images`
+
+  ```
+  REPOSITORY       AG            IMAGE ID            CREATED             SIZE
+  1_hello_world    latest        8608919710b9        2 weeks ago         5.57MB
+  ```
+
+- **`docker run <image>`   **
+
+  -  Puts to run a Docker Image, in orther words, it creates a runing instace of the image which is a container.
+    - Example: `docker run 1_hello_world`
+
+  ```
+  hello world!	
+  ```
+
+- **`docker stop <name|id>`  **
+
+  - Stops a docker container with name  `<name|id>`
+  - Example: ```docker stop 251df5dae0ed```
+
+- **`docker start <name|id>` **: 
+
+  - Starts a docker container with name `<name|id>`
+
+- **`docker ps` **
+
+  - Displays current running docker containers
+
+- **`docker ps -a` **
+
+  - Displays current running containers and current stopped containers
+
+- **`docker rm <name|id>`**    
+
+  - Remove container `<name|id>`
+  
+- **`docker rmi <name|id>`**
+
+  - Remove Docker image `<name|id>`
+
+  
 
 ### Basic Docker commands
 
@@ -30,11 +75,10 @@ alpine              latest              196d12cf6ab1        8 weeks ago         
 
 
 - `docker run`: Starts running a Docker Image.
-
-    - Ex: `docker run -it ubuntu` will start the Image `ubuntu` in interactive mode. Therefore you will have access
+- Ex: `docker run -it ubuntu` will start the Image `ubuntu` in interactive mode. Therefore you will have access
 
 ```
-    docker run -it ubuntu
+  docker run -it ubuntu
 	root@44185b4f5beb:/# ls
 	bin   dev  home  lib64  mnt  proc  run   srv  tmp  var
 	boot  etc  lib   media  opt  root  sbin  sys  usr
@@ -46,56 +90,37 @@ alpine              latest              196d12cf6ab1        8 weeks ago         
 
 - `docker stop`: Stops a running container 
 
-    - Ex: `docker stop cfbde869879a` will stop container `196d12cf6ab1`
+    - Ex: `docker stop cfbde869879a` will stop container  `196d12cf6ab1`
 
 
 - `docker build`: Builds  Docker Image from a Dockerfile
-
-    - Ex: `docker build -t name_of_the_image where_to_save` creates an image from
+- Ex: `docker build -t name_of_the_image where_to_save` creates an image from
           the Dockerfile found in the same directory where the command is executed. The image is named `name_of_the_image` and it saved in path `where_to_save`
-
-    - Ex: `docker build -t image_python .` creates an image from the Dockerfile found
+    
+- Ex: `docker build -t image_python .` creates an image from the Dockerfile found
           in the same directory where the command is executed. The image is named 
           `image_python` and it saved in the same current directory (that is the dot '.').
 
 
 
-### Describing docker containers
+### Examples
 
-- A Docker Container (or container) is running instance of a Docker Image (or just Image).
-   - An Image is a snapshot of the software at a particular time.
-   - This inclutes the operating system, software and application code.
-
-- Images are defined using a Dockerfile.
-    - A Docker file is a simple text file containing a list of steps to create an image.
-
-In practise this means that a Dockerfile will be a very tiny file (less than a Mb), while a DockerImage 
-can be several GB (it bundles what is described in the Dockerfile).
-
-Examples of Dockerfile descriptions can be cound in hub.docker.com
+The folder `container_examples` contains several folders each of which explains some basic concepts from Docker. Each folder contains a docker image (described in a `Dockerfile` file) as well as a `README.md` file that introduces and explains several docker concepts. This tutorial is meant to learn docker from scratch and does not asume any previous knowledge.
 
 
-### Buiding a docker container: `docker build .`
+#### Example 1: `1_hello_world`
+
+This example shows how to build and run a container with a hardcoded command inside the container.
+The command is `"echo hello world!"`
 
 
-The command `docker build .` will build a docker container 
+#### Example 2: `2_script_inside`
 
-## Examples
+This example shows how to build a Dockerimage that contains  a script that is executed inside a container.
 
-There are a bunch of folders each of wich contains the description of a Docker Container
+In order to make this as simple as possible the script will simply print  ```Hello world from a script file!!```  to the terminal and opens a `top` process.
 
-
-#### Example 1: `hello_world_container`
-
-Shows how to build and run a container with a hardcoded command inside the container.
-The command is "echo hello world!"
-
-
-#### Example 2: `hello_world_script_inside_container`
-
-
-
-#### Example 2: `python_container`
+#### Example 3: `3_python`
 
 
 - Create a folder `src`
