@@ -49,18 +49,17 @@ The main benefits of docker are
   - Displays current running docker containers
 
 - **`docker ps -a` **
-
-  - Displays current running containers and current stopped containers
-
+- Displays current running containers and current stopped containers
 - **`docker rm <name|id>`**    
-
-  - Remove container `<name|id>`
-  
+- Remove container `<name|id>`
 - **`docker rmi <name|id>`**
-
   - Remove Docker image `<name|id>`
 
-  
+
+- **`docker logs <name|id>`**
+  - View the messages printed in the terminal of a container
+
+
 
 ### Basic Docker commands
 

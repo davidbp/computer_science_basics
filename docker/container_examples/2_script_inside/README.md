@@ -8,7 +8,7 @@ to the terminal and will start a `top` program that shows the processes running 
 
 In `2_script_inside` we will see:
 
-- How to copy a script inside an image when it is build (usin `COPY` in the `Dockerfile`)
+- How to copy a script inside an image when it is build (using `COPY` in the `Dockerfile`)
 
 - How to make a container that runs as an executable (using `ENTRYPOINT` in the `Dockerfile`)
 
@@ -99,7 +99,8 @@ e64a8229c759        adba70f93c2a        "/script.sh"        7 seconds ago       
 ```
 
 
-## The importance of PID 1
+
+### The importance of PID 1
 
 Docker executes the container until the process in `PID 1` terminates. It uses this signal to stop the container from running.
 
@@ -111,7 +112,3 @@ To force stop the container run
 docker stop script_inside
 ```
 
-
-```
-docker rm docker stop script_inside
-```
