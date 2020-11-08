@@ -59,6 +59,11 @@ The main benefits of docker are
 - **`docker logs <name|id>`**
   - View the messages printed in the terminal of a container
 
+- **`control + p, control + q`** 
+  - Detach from a running container in interactive mode
+- **`docker attach <name|id>`**
+  - Attach (go inside) of a container that is still running
+
 
 
 ### Basic Docker commands
