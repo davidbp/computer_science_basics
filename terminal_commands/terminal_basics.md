@@ -5,14 +5,18 @@
 This file summarizes a set of basics terminal commands:
 
 - `cd` :    
+  
   - move from one folder to anohter
 - `ls` : list information 
+  
   - see files and folders of a particular folder
 - `du` : disk usage       
+  
   -  summarize disk usage of a set of files, recursively directories 
 - `grep`: get regular expression and print 
-  - Print lines of files that contain a particular match of a regular expression
-
+  
+- Print lines of files that contain a particular match of a regular expression
+  
 - `cut`: Command to remove (or cut out) sections of each line of a file (or files)
 
   
@@ -258,8 +262,6 @@ The option `-B` can be used to print an specified number of lines **before** a m
 
 For example `grep -A 3 dave people_data.txt` will print the 3 lines after a match with `dave`.
 
-
-
 ```
  grep -B 1 dave people_data.txt 
 ```
@@ -380,6 +382,36 @@ Note that we get as ouptut the union of both of the previous regular expressions
 
 
 
+**Exercise:  Retrieve all lines from `people_data.txt` that start with n or N **
+
+Note that:
+
+- we want to use `-i` to allow capital and non capital letters
+
+- we want to use `^n` to verify that the line starts with `n` 
+
+```
+grep "^n" -i people_data.txt
+```
+
+```
+Neil Patterson
+neilpatterson@bogusemail.com
+Neil Wilson
+neilwilson@bogusemail.com
+neildavis@bogusemail.com
+Nicole Taylor
+nicoletaylor@bogusemail.com
+Neil Stuart
+neilstuart@bogusemail.com
+Neil Arnold
+neilarnold@bogusemail.com
+Nicole White
+nicolewhite@bogusemail.com
+```
+
+
+
 #### `|` Piping results
 
 This is not a particular option from `grep` but a general operation. Nevertheless it is so important that we write it here.
@@ -395,6 +427,46 @@ grep "^80" people_data_2.txt | grep AK
 ```
 806 1st St., Faketown AK 86847
 ```
+
+
+
+**Example: Seach all appearances of  `dave` in any document  within a given folder**:
+
+Note that we can write the exercise in two steps:
+
+- First get all the files that contain the query
+- Then for each of the files look at any apperance of the query 
+
+```
+grep -l  dave * | grep -w dave *
+```
+
+```
+people_data_2.txt:dave martin
+terminal_basics.md:grep dave -i people_data.txt
+terminal_basics.md:grep dave -i people_data.txt 
+terminal_basics.md:The following command will be case insensitive and will look for the whole world `dave`. Notice that now we don not get the emails like `davearnold@bogusemail.com` because we are not looking for a substring but a word.
+terminal_basics.md:grep dave  -i -w  people_data.txt 
+terminal_basics.md:grep -v dave people_data_2.txt -10
+terminal_basics.md:Notice that the file contains `dave martin` inside:
+terminal_basics.md:dave martin
+terminal_basics.md:grep dave *
+terminal_basics.md:people_data_2.txt:dave martin
+terminal_basics.md:```grep -l dave *
+terminal_basics.md: grep -l dave *
+terminal_basics.md:We can use `grep -c dave people_data.txt people_data_2.txt` to find the counts of all the lines that contain a particular string.
+terminal_basics.md:grep -c dave people_data.txt people_data_2.txt
+terminal_basics.md:For example `grep -A 3 dave people_data.txt` will print the 3 lines after a match with `dave`.
+terminal_basics.md: grep -A 1 dave people_data.txt 
+terminal_basics.md:For example `grep -A 3 dave people_data.txt` will print the 3 lines after a match with `dave`.
+terminal_basics.md: grep -B 1 dave people_data.txt 
+terminal_basics.md:For example `grep -C 2 dave people_data.txt` will print the 2 lines  before and after a match with `dave`.
+terminal_basics.md:grep -C 1 dave people_data.txt 
+terminal_basics.md:Example: Seach all files within a folder that contain `dave` as substring and then find all the occurances of `dave` within each of this files:
+terminal_basics.md:grep -l  dave * | grep -w dave *
+```
+
+Note that in particular this file `terminal_basics.md` contains the queried word. And even the example itself is retrieved because it also contains the queried word.
 
 
 
@@ -438,5 +510,22 @@ We could pass the output of the previous command to select only rows that endwit
 
 ```
 cut -d , -f1 -f5 iris.csv | grep -E "virginica$|setosa$"
+```
+
+
+
+**Exercise: Retrieve the first column and the last one of the first 6 lines of `iris.csv` ** 
+
+```
+head -6 iris.csv | cut -d , -f1 -f5
+```
+
+```
+SepalLength,Name
+5.1,Iris-setosa
+4.9,Iris-setosa
+4.7,Iris-setosa
+4.6,Iris-setosa
+5.0,Iris-setosa
 ```
 
