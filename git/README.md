@@ -45,3 +45,25 @@ we can use:
 ```
 git diff --stat --color current_branch..master
 ```
+
+#### Delete branches
+
+Delete local branch:
+```
+git branch -d local-branch
+```
+
+If there are unmerged commits the previous command might not work. Then you can  use
+
+```
+git branch -D local-branch
+```
+
+Delete a remote branch
+
+```
+git push origin --delete remote-branch
+```
+
+
+
