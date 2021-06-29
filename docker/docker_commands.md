@@ -16,7 +16,7 @@ The main benefits of docker are
   - build an image from a  `Dockerfile` found in `path_folder_containing_Dockerfile`
   - After an image is build it should appear in `docker images`
 
-- **`docker images`**: displays the images available in the local machine
+- **`docker images`** : displays the images available in the local machine
 
   - After building an image it should appear in `docker images`
   - Example: `docker images`
@@ -26,7 +26,7 @@ The main benefits of docker are
   1_hello_world    latest        8608919710b9        2 weeks ago         5.57MB
   ```
 
-- **`docker run <image>`   **
+- **`docker run <image>`**
 
   -  Puts to run a Docker Image, in orther words, it creates a runing instace of the image which is a container.
     - Example: `docker run 1_hello_world`
@@ -35,20 +35,20 @@ The main benefits of docker are
   hello world!	
   ```
 
-- **`docker stop <name|id>`  **
+- **`docker stop <name|id>`**
 
   - Stops a docker container with name  `<name|id>`
   - Example: ```docker stop 251df5dae0ed```
 
-- **`docker start <name|id>` **: 
+- **`docker start <name|id>`** : 
 
   - Starts a docker container with name `<name|id>`
 
-- **`docker ps` **
+- **`docker ps`**
 
   - Displays current running docker containers
 
-- **`docker ps -a` **
+- **`docker ps -a`**
 - Displays current running containers and current stopped containers
 - **`docker rm <name|id>`**    
 - Remove container `<name|id>`
