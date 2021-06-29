@@ -105,7 +105,8 @@ alpine              latest              196d12cf6ab1        8 weeks ago         
           in the same directory where the command is executed. The image is named 
           `image_python` and it saved in the same current directory (that is the dot '.').
 
-
+- `docker image rm <image_id>`: removes image `<image_id>` from the local set of Docker containers.
+	- `docker image rm $(docker images -q)`: Removes all docker images 
 
 ### Examples
 
