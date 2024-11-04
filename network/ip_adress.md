@@ -1,6 +1,6 @@
 #### Check your WAN ip adress (router)
 
-curl ipinfo.io/ip
+curl `ipinfo.io/ip`
 
 ```
 67.218.254.229
